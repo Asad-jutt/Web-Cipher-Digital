@@ -270,6 +270,12 @@ export default function ContentSections({
         </div>
       </section>
 
+      {/* Smooth Ambient Section Transition Fade */}
+      <div className="relative w-full max-w-5xl mx-auto my-2 py-4 flex flex-col items-center justify-center pointer-events-none">
+        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-slate-800/80 to-transparent" />
+        <div className="absolute w-64 h-[2px] bg-gradient-to-r from-transparent via-[#00f0ff]/50 to-transparent blur-[1px]" />
+      </div>
+
       {/* 02 / PORTFOLIO WORK SECTION */}
       <WorkSection
         portfolioItems={portfolioItems}

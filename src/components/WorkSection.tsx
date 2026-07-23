@@ -72,8 +72,12 @@ export default function WorkSection({
     <section
       id="section-portfolio"
       ref={sectionRef}
-      className="w-full max-w-6xl mx-auto py-20 md:py-32 border-t border-slate-900/60 scroll-mt-24 font-sans select-none"
+      className="relative w-full max-w-6xl mx-auto py-20 md:py-32 scroll-mt-24 font-sans select-none"
     >
+      {/* Ambient Radial Gradient Fade bridging Hero and Work Sections */}
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[120px] bg-gradient-to-b from-[#00f0ff]/10 via-[#a855f7]/5 to-transparent blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-3/4 max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/40 to-transparent shadow-[0_0_15px_#00f0ff]" />
+
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
         
         {/* Left Column: Heading (02 / WORK / IMMERSIVE PROJECTS / DEPLOYED) */}
