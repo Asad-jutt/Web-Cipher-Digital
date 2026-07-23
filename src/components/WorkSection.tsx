@@ -24,38 +24,58 @@ export default function WorkSection({
   const sectionRef = useRef<HTMLElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
 
-  // GSAP ScrollTrigger Entrance Animation for Cards
+  // GSAP 3D Stack Deck Opening Scroll Animation for Cards
   useEffect(() => {
     const sectionEl = sectionRef.current;
     const cardsEl = cardsContainerRef.current;
     if (!sectionEl || !cardsEl) return;
 
-    const cards = cardsEl.querySelectorAll('.gsap-work-card');
+    const cards = Array.from(cardsEl.querySelectorAll<HTMLElement>('.gsap-work-card'));
+    if (cards.length === 0) return;
 
-    gsap.fromTo(
-      cards,
-      {
-        y: 90,
-        opacity: 0,
-        scale: 0.95,
-      },
-      {
+    // Set 3D perspective container
+    gsap.set(cardsEl, { perspective: 1400, transformStyle: 'preserve-3d' });
+
+    const ctx = gsap.context(() => {
+      // Set initial compact 3D stacked deck positions
+      cards.forEach((card, i) => {
+        gsap.set(card as HTMLElement, {
+          y: i === 0 ? 0 : -i * 190,
+          scale: 1 - i * 0.05,
+          rotateX: -14 * i,
+          rotateZ: (i % 2 === 0 ? 1 : -1) * (i * 2.5),
+          z: -60 * i,
+          transformOrigin: 'center top',
+          opacity: i === 0 ? 1 : Math.max(0.15, 1 - i * 0.25),
+          filter: i === 0 ? 'brightness(1)' : `brightness(${Math.max(0.3, 1 - i * 0.2)})`,
+        });
+      });
+
+      // High-end ScrollTrigger animation opening the stack smoothly
+      gsap.to(cards, {
         y: 0,
-        opacity: 1,
         scale: 1,
-        duration: 1.1,
-        stagger: 0.2,
+        rotateX: 0,
+        rotateZ: 0,
+        z: 0,
+        opacity: 1,
+        filter: 'brightness(1)',
+        duration: 1.3,
+        stagger: {
+          amount: 0.5,
+          ease: 'power2.inOut',
+        },
         ease: 'power4.out',
         scrollTrigger: {
           trigger: sectionEl,
-          start: 'top 80%',
+          start: 'top 72%',
           toggleActions: 'play none none reverse',
         },
-      }
-    );
+      });
+    }, sectionEl);
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      ctx.revert();
     };
   }, [portfolioItems, isSanityLoading]);
 
@@ -116,60 +136,77 @@ export default function WorkSection({
         </div>
 
         {/* Right Column: Stacked Interactive Work Cards */}
-        <div ref={cardsContainerRef} className="md:col-span-7 flex flex-col gap-6">
-          {isSanityLoading ? (
-            <div className="flex flex-col items-center justify-center py-20 space-y-4 bg-[#050711]/60 border border-slate-900 rounded-2xl">
-              <div className="w-8 h-8 border-2 border-[#00f0ff] border-t-transparent rounded-full animate-spin" />
-              <span className="font-mono text-[10px] text-[#00f0ff] uppercase tracking-[0.2em] animate-pulse">
-                STREAMING SANITY CMS TELEMETRY...
-              </span>
-            </div>
-          ) : (
-            portfolioItems.map((project) => {
-              const theme = getThemeForProject(project);
+        <div className="md:col-span-7 flex flex-col gap-6">
+          {/* Stack Deck Indicator Banner */}
+          <div className="flex items-center justify-between font-mono text-[10px] text-slate-500 uppercase tracking-widest pb-2 border-b border-slate-900/80">
+            <span className="flex items-center gap-2 text-[#00f0ff] font-semibold">
+              <Layers className="w-3.5 h-3.5 text-[#00f0ff] animate-pulse" />
+              <span>3D CARD STACK MATRIX (SCROLL TO OPEN)</span>
+            </span>
+            <span className="px-2 py-0.5 rounded bg-[#080d1e] border border-slate-800 text-[#00f0ff]/80">
+              {portfolioItems.length} DEPLOYED BUILDS
+            </span>
+          </div>
 
-              return (
-                <div
-                  id={`portfolio-item-${project.id}`}
-                  key={project.id}
-                  onClick={() => onSelectProject(project)}
-                  className="gsap-work-card group relative bg-[#040409]/95 border border-slate-900 hover:border-[#00f0ff]/40 rounded-2xl p-6 md:p-8 min-h-[210px] cursor-pointer shadow-2xl transition-all duration-500 hover:scale-[1.015] overflow-hidden flex flex-col justify-between"
-                  style={{
-                    boxShadow: theme === 'cyan'
-                      ? '0 0 35px rgba(0, 242, 254, 0.05)'
-                      : theme === 'purple'
-                      ? '0 0 35px rgba(168, 85, 247, 0.05)'
-                      : theme === 'pink'
-                      ? '0 0 35px rgba(244, 114, 182, 0.05)'
-                      : '0 0 35px rgba(16, 185, 129, 0.05)',
-                  }}
-                >
-                  {/* 1. Interactive Three.js Custom GLSL Fragment Shader Hover Canvas */}
-                  <ShaderProjectCard
-                    theme={theme}
-                    title={project.title}
-                    category={project.category}
-                  />
+          <div ref={cardsContainerRef} className="flex flex-col gap-6 relative">
+            {isSanityLoading ? (
+              <div className="flex flex-col items-center justify-center py-20 space-y-4 bg-[#050711]/60 border border-slate-900 rounded-2xl">
+                <div className="w-8 h-8 border-2 border-[#00f0ff] border-t-transparent rounded-full animate-spin" />
+                <span className="font-mono text-[10px] text-[#00f0ff] uppercase tracking-[0.2em] animate-pulse">
+                  STREAMING SANITY CMS TELEMETRY...
+                </span>
+              </div>
+            ) : (
+              portfolioItems.map((project, index) => {
+                const theme = getThemeForProject(project);
 
-                  {/* Top Glowing Laser Line on Hover */}
-                  <div className={`absolute top-0 left-0 w-0 h-[2px] transition-all duration-500 group-hover:w-full ${
-                    theme === 'cyan' ? 'bg-gradient-to-r from-[#00f0ff] to-emerald-400' :
-                    theme === 'purple' ? 'bg-gradient-to-r from-[#8a2be2] to-indigo-500' :
-                    theme === 'pink' ? 'bg-gradient-to-r from-pink-500 to-purple-500' :
-                    'bg-gradient-to-r from-emerald-400 to-cyan-400'
-                  }`} />
+                return (
+                  <div
+                    id={`portfolio-item-${project.id}`}
+                    key={project.id}
+                    onClick={() => onSelectProject(project)}
+                    className="gsap-work-card group relative bg-[#040409]/95 border border-slate-900 hover:border-[#00f0ff]/40 rounded-2xl p-6 md:p-8 min-h-[210px] cursor-pointer shadow-2xl transition-all duration-500 hover:scale-[1.015] overflow-hidden flex flex-col justify-between"
+                    style={{
+                      boxShadow: theme === 'cyan'
+                        ? '0 0 35px rgba(0, 242, 254, 0.05)'
+                        : theme === 'purple'
+                        ? '0 0 35px rgba(168, 85, 247, 0.05)'
+                        : theme === 'pink'
+                        ? '0 0 35px rgba(244, 114, 182, 0.05)'
+                        : '0 0 35px rgba(16, 185, 129, 0.05)',
+                    }}
+                  >
+                    {/* 1. Interactive Three.js Custom GLSL Fragment Shader Hover Canvas */}
+                    <ShaderProjectCard
+                      theme={theme}
+                      title={project.title}
+                      category={project.category}
+                    />
 
-                  {/* Card Header Content */}
-                  <div className="relative z-10 w-full space-y-3">
-                    <div className="flex items-center justify-between font-mono text-[9px] md:text-[10px] text-slate-400 tracking-[0.2em] uppercase">
-                      <span className="flex items-center gap-1.5 text-[#00f0ff]">
-                        <Activity className="w-3 h-3 text-[#00f0ff] animate-pulse" />
-                        {project.category}
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
-                        {project.year || '2026'}
-                      </span>
-                    </div>
+                    {/* Top Glowing Laser Line on Hover */}
+                    <div className={`absolute top-0 left-0 w-0 h-[2px] transition-all duration-500 group-hover:w-full ${
+                      theme === 'cyan' ? 'bg-gradient-to-r from-[#00f0ff] to-emerald-400' :
+                      theme === 'purple' ? 'bg-gradient-to-r from-[#8a2be2] to-indigo-500' :
+                      theme === 'pink' ? 'bg-gradient-to-r from-pink-500 to-purple-500' :
+                      'bg-gradient-to-r from-emerald-400 to-cyan-400'
+                    }`} />
+
+                    {/* Card Header Content */}
+                    <div className="relative z-10 w-full space-y-3">
+                      <div className="flex items-center justify-between font-mono text-[9px] md:text-[10px] text-slate-400 tracking-[0.2em] uppercase">
+                        <span className="flex items-center gap-1.5 text-[#00f0ff]">
+                          <Activity className="w-3 h-3 text-[#00f0ff] animate-pulse" />
+                          {project.category}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 rounded bg-[#00f0ff]/10 border border-[#00f0ff]/30 text-[#00f0ff] text-[8px] tracking-widest font-bold">
+                            STACK 0{index + 1}
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                            {project.year || '2026'}
+                          </span>
+                        </div>
+                      </div>
 
                     <h3 className="font-sans font-black text-2xl md:text-3xl text-white tracking-wider leading-none group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#00f0ff] transition-all">
                       {project.title}
@@ -208,8 +245,9 @@ export default function WorkSection({
             })
           )}
         </div>
-
       </div>
-    </section>
+
+    </div>
+  </section>
   );
 }
