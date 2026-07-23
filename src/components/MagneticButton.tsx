@@ -19,7 +19,7 @@ export default function MagneticButton({
   strength = 0.35,
   onClick,
   id,
-  as = 'button',
+  as = 'div',
   href,
   target,
   rel,

@@ -103,10 +103,10 @@ export default function WorkSection({
 
           <div className="pt-4">
             <MagneticButton strength={0.3} onClick={onOpenWizard}>
-              <button className="px-6 py-3 rounded-xl bg-[#080d1e] border border-[#00f0ff]/40 hover:border-[#00f0ff] text-white font-mono text-xs uppercase tracking-widest font-bold flex items-center gap-2.5 shadow-[0_0_15px_rgba(0,242,254,0.15)] hover:shadow-[0_0_25px_rgba(0,242,254,0.35)] transition-all cursor-pointer">
+              <div className="px-6 py-3 rounded-xl bg-[#080d1e] border border-[#00f0ff]/40 hover:border-[#00f0ff] text-white font-mono text-xs uppercase tracking-widest font-bold flex items-center gap-2.5 shadow-[0_0_15px_rgba(0,242,254,0.15)] hover:shadow-[0_0_25px_rgba(0,242,254,0.35)] transition-all cursor-pointer">
                 <Sparkles className="w-3.5 h-3.5 text-[#00f0ff]" />
                 <span>INITIATE CUSTOM BUILD</span>
-              </button>
+              </div>
             </MagneticButton>
           </div>
         </div>
