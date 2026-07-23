@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-cyan: #00F2FE;
+  --color-brand-purple: #7000FF;
+  --color-brand-pink: #F539B5;
+  
+  --animate-glitch: glitch 1s linear infinite;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 2px -2px 0px var(--color-brand-cyan), -2px 2px 0px var(--color-brand-pink);
+  }
+  25% {
+    text-shadow: -2px 2px 0px var(--color-brand-cyan), 2px -2px 0px var(--color-brand-pink);
+  }
+  50% {
+    text-shadow: 2px 2px 0px var(--color-brand-cyan), -2px -2px 0px var(--color-brand-pink);
+  }
+  75% {
+    text-shadow: -2px -2px 0px var(--color-brand-cyan), 2px 2px 0px var(--color-brand-pink);
+  }
+  100% {
+    text-shadow: 2px -2px 0px var(--color-brand-cyan), -2px 2px 0px var(--color-brand-pink);
+  }
+}
+
+/* Custom glow classes and custom scrollbar */
+.glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.6), 0 0 20px rgba(0, 242, 254, 0.3);
+}
+
+.glow-pink {
+  text-shadow: 0 0 10px rgba(245, 57, 181, 0.6), 0 0 20px rgba(245, 57, 181, 0.3);
+}
+
+.border-glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.1);
+}
+
+.border-glow-pink {
+  box-shadow: 0 0 15px rgba(245, 57, 181, 0.25), inset 0 0 10px rgba(245, 57, 181, 0.1);
+}
+
+.border-glow-purple {
+  box-shadow: 0 0 15px rgba(112, 0, 255, 0.25), inset 0 0 10px rgba(112, 0, 255, 0.1);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #00F2FE 0%, #7000FF 50%, #F539B5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 18, 0.95);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(112, 0, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 242, 254, 0.5);
+}
+
+body {
+  background-color: #040409;
+  color: #f3f4f6;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+}

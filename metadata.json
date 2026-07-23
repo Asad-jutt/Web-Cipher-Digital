@@ -1,0 +1,6 @@
+{
+  "name": "Web Cypher Digital",
+  "description": "An immersive, agency-level digital landing page for Web Cypher Digital. Specializing in high-performance Astro and Sanity CMS integrations, HTML5 canvas physics, elegant futuristic typography, and fluid GSAP-driven interactions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

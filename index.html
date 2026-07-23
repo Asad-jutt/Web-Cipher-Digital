@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Preemptively manage 'ethereum' on window to avoid extension conflicts inside iframes
+      (function() {
+        try {
+          let currentEthereum = undefined;
+          Object.defineProperty(window, 'ethereum', {
+            get() { return currentEthereum; },
+            set(val) { currentEthereum = val; },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          // Silent catch to avoid interfering with native behavior
+        }
+
+        // Global uncaught error filter to suppress benign MetaMask / Ethereum extension errors
+        window.addEventListener('error', function(event) {
+          if (event.message && (
+            event.message.indexOf('ethereum') !== -1 || 
+            event.message.indexOf('Cannot redefine property') !== -1
+          )) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
