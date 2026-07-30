@@ -228,10 +228,10 @@ export default function ContentSections({
       id="content-sections-wrapper"
       className="relative z-10 w-full px-6 md:px-24 lg:px-40 flex flex-col"
     >
-      {/* 01 / HERO SECTION */}
+      {/* 01 / HERO SECTION — full viewport height */}
       <section
         id="section-hero"
-        className="max-w-4xl mx-auto text-center space-y-8 py-20 md:py-32 scroll-mt-24 w-full"
+        className="max-w-4xl mx-auto text-center space-y-8 min-h-screen flex flex-col items-center justify-center scroll-mt-24 w-full"
       >
         {/* Tagline Indicator */}
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-cyan/10 border border-brand-cyan/30 rounded-full select-none">
@@ -269,12 +269,6 @@ export default function ContentSections({
           </button>
         </div>
       </section>
-
-      {/* Smooth Ambient Section Transition Fade */}
-      <div className="relative w-full max-w-5xl mx-auto my-2 py-4 flex flex-col items-center justify-center pointer-events-none">
-        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-slate-800/80 to-transparent" />
-        <div className="absolute w-64 h-[2px] bg-gradient-to-r from-transparent via-[#00f0ff]/50 to-transparent blur-[1px]" />
-      </div>
 
       {/* 02 / PORTFOLIO WORK SECTION */}
       <WorkSection

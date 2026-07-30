@@ -94,9 +94,9 @@ export default function WorkSection({
       ref={sectionRef}
       className="relative w-full max-w-6xl mx-auto py-20 md:py-32 scroll-mt-24 font-sans select-none"
     >
-      {/* Ambient Radial Gradient Fade bridging Hero and Work Sections */}
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[120px] bg-gradient-to-b from-[#00f0ff]/10 via-[#a855f7]/5 to-transparent blur-3xl pointer-events-none rounded-full" />
-      <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-3/4 max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/40 to-transparent shadow-[0_0_15px_#00f0ff]" />
+      {/* Ambient Gradient Bridge merging Hero into Work Section */}
+      <div className="absolute -top-48 left-1/2 -translate-x-1/2 w-[150%] max-w-5xl h-[280px] bg-gradient-to-b from-[#00f0ff]/15 via-[#7000FF]/10 to-transparent blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120%] max-w-4xl h-[200px] bg-gradient-to-b from-[#f539b5]/8 via-transparent to-transparent blur-3xl pointer-events-none rounded-full" />
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
         

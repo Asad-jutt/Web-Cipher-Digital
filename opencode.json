@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openrouter/qwen/qwen3-coder",
+  "provider": {
+    "openrouter": {
+      "options": {
+        "apiKey": "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"
+      }
+    }
+  }
+}
